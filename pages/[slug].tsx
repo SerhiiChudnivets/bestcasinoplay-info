@@ -46,6 +46,7 @@ interface SiteData {
   site_name?: string
   accent_color?: string
   footer_text?: string
+  allow_indexing?: boolean
   pages?: PageData[]
 }
 
@@ -337,6 +338,7 @@ export default function DynamicPage({ page, site }: { page: PageData; site: Site
       <Head>
         <title>{page.seo_title || page.title} | {siteName}</title>
         <meta name="description" content={page.seo_description || ''} />
+        <meta name="robots" content={site.allow_indexing ? 'index,follow' : 'noindex,nofollow'} />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
