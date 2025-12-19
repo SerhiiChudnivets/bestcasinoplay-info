@@ -648,6 +648,26 @@ export default function TupchiyTemplate() {
   const [bonusStartIndex, setBonusStartIndex] = useState(0)
   const [showPopup, setShowPopup] = useState(false)
 
+  // Функція для заміни змінних у content
+  const replaceVariables = (content: string): string => {
+    if (!content) return content
+    
+    let result = content
+    const variableRegex = /\{\{([^}]+)\}\}/g
+    
+    result = result.replace(variableRegex, (match, variableName) => {
+      const trimmedName = variableName.trim()
+      if (data[trimmedName] !== undefined && data[trimmedName] !== null) {
+        return String(data[trimmedName])
+      }
+      return match
+    })
+    
+    return result
+  }
+
+  const processedContent = data.content ? replaceVariables(data.content) : ''
+
   const siteName = data.site_name || data.name || 'LuckySpin'
   const heroTitle = data.hero_title || 'Get 200% Bonus'
   const heroSubtitle = data.hero_subtitle || 'Up to €1,000 + 100 Free Spins'
@@ -878,10 +898,10 @@ export default function TupchiyTemplate() {
         </section>
 
         {/* Custom Content Section */}
-        {data.content && (
+        {processedContent && (
           <section className="content-section">
             <div className="container">
-              <div className="content-wrapper" dangerouslySetInnerHTML={{ __html: data.content }} />
+              <div className="content-wrapper" dangerouslySetInnerHTML={{ __html: processedContent }} />
             </div>
           </section>
         )}
