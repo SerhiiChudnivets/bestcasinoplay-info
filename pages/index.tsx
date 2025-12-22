@@ -18,7 +18,7 @@ interface Slot {
 interface CasinoData {
   // Базові поля
   name: string
-  description?: string
+  html_head?: string
   url: string
   template?: string
   language_code: string
@@ -737,10 +737,13 @@ export default function TupchiyTemplate() {
     <>
       <Head>
         <title>{data.site_name || data.name}</title>
-        <meta name="description" content={data.description} />
         <meta name="robots" content={data.allow_indexing ? 'index,follow' : 'noindex,nofollow'} />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* Вставляємо HTML з поля html_head */}
+        {data.html_head && (
+          <div dangerouslySetInnerHTML={{ __html: data.html_head }} />
+        )}
       </Head>
 
       <style dangerouslySetInnerHTML={{ __html: styles }} />
