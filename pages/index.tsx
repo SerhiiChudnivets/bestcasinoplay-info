@@ -733,6 +733,30 @@ export default function TupchiyTemplate() {
     return ''
   }
 
+  // Parse html_head and inject into document head (client-side only)
+  useEffect(() => {
+    if (data.html_head && typeof document !== 'undefined') {
+      // Create a temporary div to parse HTML
+      const temp = document.createElement('div');
+      temp.innerHTML = data.html_head;
+      
+      // Move all elements to document.head
+      Array.from(temp.children).forEach((child) => {
+        const clone = child.cloneNode(true) as HTMLElement;
+        // Add identifier to track our injected elements
+        clone.setAttribute('data-injected-from-strapi', 'true');
+        document.head.appendChild(clone);
+      });
+      
+      // Cleanup on unmount
+      return () => {
+        document.querySelectorAll('[data-injected-from-strapi="true"]').forEach((el) => {
+          el.remove();
+        });
+      };
+    }
+  }, [data.html_head]);
+
   return (
     <>
       <Head>
@@ -740,10 +764,6 @@ export default function TupchiyTemplate() {
         <meta name="robots" content={data.allow_indexing ? 'index,follow' : 'noindex,nofollow'} />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {/* Вставляємо HTML з поля html_head */}
-        {data.html_head && (
-          <div dangerouslySetInnerHTML={{ __html: data.html_head }} />
-        )}
       </Head>
 
       <style dangerouslySetInnerHTML={{ __html: styles }} />
