@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Head from 'next/head'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import fs from 'fs'
@@ -26,6 +26,7 @@ interface PageData {
   content?: string
   seo_title?: string
   seo_description?: string
+  html_head?: string
   hero_title?: string
   hero_subtitle?: string
   hero_badge?: string
@@ -332,6 +333,30 @@ const styles = `
 
 export default function DynamicPage({ page, site }: { page: PageData; site: SiteData }) {
   const siteName = site.site_name || site.name
+
+  // Parse html_head and inject into document head (client-side only)
+  useEffect(() => {
+    if (page.html_head && typeof document !== 'undefined') {
+      // Create a temporary div to parse HTML
+      const temp = document.createElement('div');
+      temp.innerHTML = page.html_head;
+      
+      // Move all elements to document.head
+      Array.from(temp.children).forEach((child) => {
+        const clone = child.cloneNode(true) as HTMLElement;
+        // Add identifier to track our injected elements
+        clone.setAttribute('data-injected-from-strapi-page', 'true');
+        document.head.appendChild(clone);
+      });
+      
+      // Cleanup on unmount
+      return () => {
+        document.querySelectorAll('[data-injected-from-strapi-page="true"]').forEach((el) => {
+          el.remove();
+        });
+      };
+    }
+  }, [page.html_head]);
 
   return (
     <>
