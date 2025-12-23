@@ -1,6 +1,6 @@
 {
   "name": "bestcasinoplay.info",
-  "html_head": null,
+  "html_head": "<meta property=\"og:locale\" content=\"nl_NL - вигляд (в залежності від мови, якщо мова nl-NL, то проперти nl_NL\">\n<meta property=\"og:type\" content=\"website\">\n<meta property=\"og:title\" content=\"тайтл сторінки\">\n<meta property=\"og:description\" content=\"description сторінки\">\n<meta property=\"og:url\" content=\"урл сторінки\">\n<meta property=\"og:site_name\" content=\"Назва казино (можливо тянути від назви проекту)\">\n<meta property=\"article:modified_time\" content=\"2025-11-06T12:24:43+00:00 (приклад)\">\n<meta property=\"og:image\" content=\"урл картинки банеру\">\n<meta name=\"twitter:card\" content=\"summary_large_image\">\n<meta name=\"twitter:title\" content=\"тайтл сторінки\">\n<meta name=\"twitter:description\" content=\"description сторінки\">\n<meta name=\"twitter:image\" content=\"урл картинки банеру\">",
   "url": "bestcasinoplay.info",
   "template": "tupchiy",
   "language_code": "en",
@@ -95,6 +95,6 @@
     }
   ],
   "redirects": [],
-  "_generated_at": "2025-12-22T15:33:35.036Z",
+  "_generated_at": "2025-12-23T15:25:19.651Z",
   "_version": "1.0.0"
 }
