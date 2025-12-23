@@ -27,11 +27,7 @@ export default function Custom404() {
           {/* Meta refresh для автоматичного редіректу */}
           <meta httpEquiv="refresh" content="0;url=/" />
         </Head>
-        {/* Inline script для миттєвого редіректу (найшвидший спосіб) */}
-        <script dangerouslySetInnerHTML={{ __html: 'window.location.replace("/");' }} />
-        <noscript>
-          <meta httpEquiv="refresh" content="0;url=/" />
-        </noscript>
+        {/* Порожня сторінка - redirect відбувається через meta refresh та useEffect */}
       </>
     );
   }
