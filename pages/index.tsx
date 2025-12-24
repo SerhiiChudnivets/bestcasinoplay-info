@@ -15,6 +15,21 @@ interface Slot {
   link?: string
 }
 
+interface SubmenuItem {
+  id?: number
+  label: string
+  url: string
+  open_in_new_tab?: boolean
+}
+
+interface MenuItem {
+  id?: number
+  label: string
+  url: string
+  open_in_new_tab?: boolean
+  submenu?: SubmenuItem[]
+}
+
 interface CasinoData {
   // Базові поля
   name: string
@@ -44,6 +59,8 @@ interface CasinoData {
   
   // Repeatable components
   Slots?: Slot[]
+  header_menu?: MenuItem[]
+  footer_menu?: MenuItem[]
   
   // Metadata
   _generated_at?: string
@@ -178,17 +195,80 @@ const styles = `
     overflow-x: auto;
   }
 
+  .menu-item {
+    position: relative;
+  }
+
   .nav-link {
     color: hsl(var(--muted-foreground));
     text-decoration: none;
     font-weight: 500;
     white-space: nowrap;
     transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
   }
 
   .nav-link:hover {
     color: hsl(var(--primary));
   }
+
+  .menu-arrow {
+    font-size: 10px;
+    transition: transform 0.3s;
+  }
+
+  .menu-item:hover .menu-arrow {
+    transform: rotate(180deg);
+  }
+
+  .submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: hsl(var(--secondary));
+    border: 1px solid hsl(var(--border));
+    border-radius: 8px;
+    padding: 0.5rem 0;
+    min-width: 200px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .menu-item:hover .submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .submenu a {
+    display: block;
+    color: hsl(var(--muted-foreground));
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s;
+    white-space: nowrap;
+  }
+
+  .submenu a:hover {
+    background: hsl(var(--accent));
+    color: hsl(var(--primary));
+  }
+
+  footer .nav-content {
+    padding: 1rem 0;
+    font-size: 0.875rem;
+  }
+
+  footer .nav-link {
+    font-size: 0.875rem;
+  }
+
 
   /* Hero Banner Styles */
   .hero-section {
@@ -791,10 +871,44 @@ export default function TupchiyTemplate() {
         <nav className="nav-bar">
           <div className="container">
             <ul className="nav-content">
-              <li><a href="#home" className="nav-link">Home</a></li>
-              <li><a href="#slots" className="nav-link">Slots</a></li>
-              <li><a href="#bonuses" className="nav-link">Bonuses</a></li>
-              <li><a href="#about" className="nav-link">About</a></li>
+              {data.header_menu && data.header_menu.length > 0 ? (
+                data.header_menu.map((item, index) => (
+                  <li key={item.id || index} className="menu-item">
+                    <a 
+                      href={item.url} 
+                      className="nav-link"
+                      target={item.open_in_new_tab ? '_blank' : '_self'}
+                      rel={item.open_in_new_tab ? 'noopener noreferrer' : undefined}
+                    >
+                      {item.label}
+                      {item.submenu && item.submenu.length > 0 && (
+                        <span className="menu-arrow">▼</span>
+                      )}
+                    </a>
+                    {item.submenu && item.submenu.length > 0 && (
+                      <div className="submenu">
+                        {item.submenu.map((subitem, subindex) => (
+                          <a
+                            key={subitem.id || subindex}
+                            href={subitem.url}
+                            target={subitem.open_in_new_tab ? '_blank' : '_self'}
+                            rel={subitem.open_in_new_tab ? 'noopener noreferrer' : undefined}
+                          >
+                            {subitem.label}
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </li>
+                ))
+              ) : (
+                <>
+                  <li><a href="#home" className="nav-link">Home</a></li>
+                  <li><a href="#slots" className="nav-link">Slots</a></li>
+                  <li><a href="#bonuses" className="nav-link">Bonuses</a></li>
+                  <li><a href="#about" className="nav-link">About</a></li>
+                </>
+              )}
             </ul>
           </div>
         </nav>
@@ -952,9 +1066,25 @@ export default function TupchiyTemplate() {
                 </div>
 
                 <div className="footer-links">
-                  <a href="#" className="footer-link">About Us</a>
-                  <a href="#" className="footer-link">Terms & Conditions</a>
-                  <a href="#" className="footer-link">Responsible Gambling</a>
+                  {data.footer_menu && data.footer_menu.length > 0 ? (
+                    data.footer_menu.map((item, index) => (
+                      <a
+                        key={item.id || index}
+                        href={item.url}
+                        className="footer-link"
+                        target={item.open_in_new_tab ? '_blank' : '_self'}
+                        rel={item.open_in_new_tab ? 'noopener noreferrer' : undefined}
+                      >
+                        {item.label}
+                      </a>
+                    ))
+                  ) : (
+                    <>
+                      <a href="#" className="footer-link">About Us</a>
+                      <a href="#" className="footer-link">Terms & Conditions</a>
+                      <a href="#" className="footer-link">Responsible Gambling</a>
+                    </>
+                  )}
                 </div>
               </div>
 

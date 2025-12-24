@@ -97,6 +97,78 @@
     }
   ],
   "redirects": [],
-  "_generated_at": "2025-12-23T16:35:51.803Z",
+  "header_menu": [
+    {
+      "id": 3,
+      "label": "first",
+      "url": "#",
+      "open_in_new_tab": false,
+      "submenu": [
+        {
+          "id": 1,
+          "label": "second",
+          "url": "#",
+          "open_in_new_tab": false
+        },
+        {
+          "id": 2,
+          "label": "third",
+          "url": "#",
+          "open_in_new_tab": true
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "label": "second",
+      "url": "#",
+      "open_in_new_tab": true,
+      "submenu": []
+    },
+    {
+      "id": 2,
+      "label": "third",
+      "url": "#",
+      "open_in_new_tab": false,
+      "submenu": []
+    }
+  ],
+  "footer_menu": [
+    {
+      "id": 6,
+      "label": "first",
+      "url": "#",
+      "open_in_new_tab": false,
+      "submenu": [
+        {
+          "id": 3,
+          "label": "second",
+          "url": "#",
+          "open_in_new_tab": false
+        },
+        {
+          "id": 4,
+          "label": "third",
+          "url": "#",
+          "open_in_new_tab": false
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "label": "second",
+      "url": "#",
+      "open_in_new_tab": false,
+      "submenu": []
+    },
+    {
+      "id": 5,
+      "label": "third",
+      "url": "#",
+      "open_in_new_tab": false,
+      "submenu": []
+    }
+  ],
+  "_generated_at": "2025-12-24T15:17:11.297Z",
   "_version": "1.0.0"
 }
